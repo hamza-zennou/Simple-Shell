@@ -4,13 +4,13 @@
  * is_chain - test if current char in buffer is a chain delimeter
  * @info: the parameter struct
  * @buf: the char buffer
- * @ptr: address of current position in buf
+ * @p: address of current position in buf
  *
  * Return: 1 if chain delimeter, 0 otherwise
  */
-int is_chain(info_t *info, char *buf, size_t *ptr)
+int is_chain(info_t *info, char *buf, size_t *p)
 {
-	size_t j = *ptr;
+	size_t j = *p;
 
 	if (buf[j] == '|' && buf[j + 1] == '|')
 	{
@@ -31,7 +31,7 @@ int is_chain(info_t *info, char *buf, size_t *ptr)
 	}
 	else
 		return (0);
-	*ptr = j;
+	*p = j;
 	return (1);
 }
 
@@ -39,15 +39,15 @@ int is_chain(info_t *info, char *buf, size_t *ptr)
  * check_chain - checks we should continue chaining based on last status
  * @info: the parameter struct
  * @buf: the char buffer
- * @ptr: address of current position in buf
+ * @p: address of current position in buf
  * @i: starting position in buf
  * @len: length of buf
  *
  * Return: Void
  */
-void check_chain(info_t *info, char *buf, size_t *ptr, size_t i, size_t len)
+void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
-	size_t j = *ptr;
+	size_t j = *p;
 
 	if (info->cmd_buf_type == CMD_AND)
 	{
@@ -66,7 +66,7 @@ void check_chain(info_t *info, char *buf, size_t *ptr, size_t i, size_t len)
 		}
 	}
 
-	*ptr = j;
+	*p = j;
 }
 
 /**
@@ -79,7 +79,7 @@ int replace_alias(info_t *info)
 {
 	int i;
 	list_t *node;
-	char *ptr;
+	char *p;
 
 	for (i = 0; i < 10; i++)
 	{
@@ -87,13 +87,13 @@ int replace_alias(info_t *info)
 		if (!node)
 			return (0);
 		free(info->argv[0]);
-		ptr = _strchr(node->str, '=');
-		if (!ptr)
+		p = _strchr(node->str, '=');
+		if (!p)
 			return (0);
-		ptr = _strdup(ptr + 1);
-		if (!ptr)
+		p = _strdup(p + 1);
+		if (!p)
 			return (0);
-		info->argv[0] = ptr;
+		info->argv[0] = p;
 	}
 	return (1);
 }
